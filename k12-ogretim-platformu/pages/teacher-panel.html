@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmen Paneli - EduPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/teacher-panel.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body teacher-panel">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduPlatform</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="teacher-panel.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Ana Panel</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-students.html" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Öğrencilerim</span>
+                        <span class="badge">125</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-classes.html" class="nav-link">
+                        <i class="fas fa-chalkboard"></i>
+                        <span>Sınıflarım</span>
+                        <span class="badge">4</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-content.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span>İçerik Yönetimi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-assignments.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Ödev Yönetimi</span>
+                        <span class="badge warning">12</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-quizzes.html" class="nav-link">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Sınav Yönetimi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-grades.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Not Yönetimi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-analytics.html" class="nav-link">
+                        <i class="fas fa-analytics"></i>
+                        <span>Analitik Raporlar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Mesajlar</span>
+                        <span class="badge">8</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-calendar.html" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Takvim</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profil</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="teacher-settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Ayarlar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="../images/teacher-avatar.jpg" alt="Profil" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Dr. Ayşe Demir</span>
+                    <span class="user-role">Fen Bilimleri Öğretmeni</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <span>Öğretmen Paneli</span>
+                </div>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Öğrenci veya içerik ara...">
+                </div>
+                
+                <div class="topbar-actions">
+                    <button class="action-btn notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    
+                    <div class="user-menu" id="userMenu">
+                        <img src="../images/teacher-avatar.jpg" alt="Profil" class="user-avatar">
+                        <div class="dropdown" id="userDropdown">
+                            <a href="teacher-profile.html"><i class="fas fa-user"></i> Profil</a>
+                            <a href="teacher-settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Teacher Panel Content -->
+        <div class="teacher-panel-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-card">
+                    <div class="welcome-text">
+                        <h1>Hoşgeldiniz, Dr. Demir! 👩‍🏫</h1>
+                        <p>Bu hafta <strong>125 öğrenci</strong> ile <strong>4 sınıfta</strong> eğitim veriyorsunuz. <strong>12 ödev</strong> değerlendirme bekliyor.</p>
+                        <div class="welcome-actions">
+                            <button class="btn btn-primary" onclick="window.location.href='teacher-content.html'">
+                                <i class="fas fa-plus"></i> İçerik Ekle
+                            </button>
+                            <button class="btn btn-outline" onclick="window.location.href='teacher-grades.html'">
+                                <i class="fas fa-clipboard-list"></i> Notları Değerlendir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="welcome-image">
+                        <img src="../images/teacher-dashboard.svg" alt="Öğretmen Dashboard">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Teacher Stats -->
+            <section class="teacher-stats">
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>125</h3>
+                            <p>Toplam Öğrenci</p>
+                            <div class="stat-details">
+                                <span class="detail">4 farklı sınıf</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>24</h3>
+                            <p>Aktif İçerik</p>
+                            <div class="stat-details">
+                                <span class="detail">18 video, 6 doküman</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Bekleyen Ödev</p>
+                            <div class="stat-details">
+                                <span class="detail">Değerlendirme gerekli</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card info">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>87.5</h3>
+                            <p>Sınıf Ortalaması</p>
+                            <div class="stat-details">
+                                <span class="detail">Son 1 ay</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-bolt"></i> Hızlı İşlemler</h2>
+                </div>
+                
+                <div class="actions-grid">
+                    <button class="action-card" onclick="showCreateContentModal()">
+                        <div class="action-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Video Dersi Ekle</h4>
+                            <p>Yeni video içeriği oluştur</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showCreateQuizModal()">
+                        <div class="action-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Quiz Oluştur</h4>
+                            <p>Yeni sınav hazırla</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showCreateAssignmentModal()">
+                        <div class="action-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Ödev Ver</h4>
+                            <p>Öğrencilere ödev ata</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="window.location.href='teacher-grades.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Not Gir</h4>
+                            <p>Öğrenci notlarını güncelle</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="showBulkMessageModal()">
+                        <div class="action-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Duyuru Yap</h4>
+                            <p>Öğrencilere mesaj gönder</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="window.location.href='teacher-analytics.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Raporları Gör</h4>
+                            <p>Detaylı analitik veriler</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <div class="content-grid">
+                <!-- Pending Assignments -->
+                <section class="pending-assignments">
+                    <div class="section-header">
+                        <h2><i class="fas fa-hourglass-half"></i> Değerlendirme Bekleyen Ödevler</h2>
+                        <a href="teacher-assignments.html" class="view-all">Tümünü Gör</a>
+                    </div>
+                    
+                    <div class="assignments-list">
+                        <div class="assignment-item">
+                            <div class="assignment-info">
+                                <h4>Hücre Bölünmesi Lab Raporu</h4>
+                                <p>8. Sınıf A - Fen Bilimleri</p>
+                                <span class="submission-count">12 öğrenci teslim etti</span>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn btn-primary btn-small" onclick="gradeAssignments(1)">
+                                    <i class="fas fa-check"></i> Değerlendir
+                                </button>
+                                <span class="deadline">Son tarih: 28 Ekim</span>
+                            </div>
+                        </div>
+                        
+                        <div class="assignment-item">
+                            <div class="assignment-info">
+                                <h4>Kimya Deney Raporu</h4>
+                                <p>9. Sınıf B - Fen Bilimleri</p>
+                                <span class="submission-count">8 öğrenci teslim etti</span>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn btn-primary btn-small" onclick="gradeAssignments(2)">
+                                    <i class="fas fa-check"></i> Değerlendir
+                                </button>
+                                <span class="deadline">Son tarih: 30 Ekim</span>
+                            </div>
+                        </div>
+                        
+                        <div class="assignment-item">
+                            <div class="assignment-info">
+                                <h4>Fizik Problem Seti</h4>
+                                <p>10. Sınıf C - Fen Bilimleri</p>
+                                <span class="submission-count">15 öğrenci teslim etti</span>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn btn-primary btn-small" onclick="gradeAssignments(3)">
+                                    <i class="fas fa-check"></i> Değerlendir
+                                </button>
+                                <span class="deadline">Son tarih: 2 Kasım</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="recent-activity">
+                    <div class="section-header">
+                        <h2><i class="fas fa-history"></i> Son Aktiviteler</h2>
+                        <a href="#" class="view-all">Tümünü Gör</a>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon submitted">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Ahmet Yılmaz ödev teslim etti</h4>
+                                <p>Hücre Bölünmesi Lab Raporu</p>
+                                <span class="activity-time">15 dakika önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon quiz">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>3 öğrenci quiz tamamladı</h4>
+                                <p>Atomun Yapısı - 9. Sınıf B</p>
+                                <span class="activity-time">2 saat önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon message">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Fatma Demir soru sordu</h4>
+                                <p>"Hücre zarının geçirgenliği..."</p>
+                                <span class="activity-time">3 saat önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon grade">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>15 ödevin notları güncellendi</h4>
+                                <p>Kimya Deney Raporu - 10. Sınıf A</p>
+                                <span class="activity-time">1 gün önce</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Class Performance -->
+            <section class="class-performance">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Sınıf Performansları</h2>
+                    <div class="performance-filters">
+                        <select id="classFilter">
+                            <option>Tüm Sınıflar</option>
+                            <option>8. Sınıf A</option>
+                            <option>9. Sınıf B</option>
+                            <option>10. Sınıf A</option>
+                            <option>10. Sınıf C</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-header">
+                            <h3>8. Sınıf A</h3>
+                            <span class="student-count">28 öğrenci</span>
+                        </div>
+                        <div class="performance-chart">
+                            <canvas id="class8AChart" width="300" height="200"></canvas>
+                        </div>
+                        <div class="performance-stats">
+                            <div class="stat">
+                                <span class="label">Ortalama:</span>
+                                <span class="value">85.4</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">En Yüksek:</span>
+                                <span class="value">98</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Katılım:</span>
+                                <span class="value">%92</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-header">
+                            <h3>9. Sınıf B</h3>
+                            <span class="student-count">32 öğrenci</span>
+                        </div>
+                        <div class="performance-chart">
+                            <canvas id="class9BChart" width="300" height="200"></canvas>
+                        </div>
+                        <div class="performance-stats">
+                            <div class="stat">
+                                <span class="label">Ortalama:</span>
+                                <span class="value">78.2</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">En Yüksek:</span>
+                                <span class="value">95</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Katılım:</span>
+                                <span class="value">%88</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-header">
+                            <h3>10. Sınıf A</h3>
+                            <span class="student-count">25 öğrenci</span>
+                        </div>
+                        <div class="performance-chart">
+                            <canvas id="class10AChart" width="300" height="200"></canvas>
+                        </div>
+                        <div class="performance-stats">
+                            <div class="stat">
+                                <span class="label">Ortalama:</span>
+                                <span class="value">91.7</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">En Yüksek:</span>
+                                <span class="value">100</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Katılım:</span>
+                                <span class="value">%96</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section class="upcoming-events">
+                <div class="section-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Yaklaşan Etkinlikler</h2>
+                    <a href="teacher-calendar.html" class="view-all">Takvimi Gör</a>
+                </div>
+                
+                <div class="events-list">
+                    <div class="event-item">
+                        <div class="event-date">
+                            <div class="day">28</div>
+                            <div class="month">Eki</div>
+                        </div>
+                        <div class="event-content">
+                            <h4>Hücre Bölünmesi Lab Ödevi Teslim</h4>
+                            <p>8. Sınıf A - 23:59'a kadar</p>
+                            <span class="event-type assignment">Ödev Teslim</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div class="event-date">
+                            <div class="day">30</div>
+                            <div class="month">Eki</div>
+                        </div>
+                        <div class="event-content">
+                            <h4>Kimya Sınavı</h4>
+                            <p>9. Sınıf B - 09:00-10:30</p>
+                            <span class="event-type exam">Sınav</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div class="event-date">
+                            <div class="day">2</div>
+                            <div class="month">Kas</div>
+                        </div>
+                        <div class="event-content">
+                            <h4>Veli Toplantısı</h4>
+                            <p>Tüm Sınıflar - 19:00-21:00</p>
+                            <span class="event-type meeting">Toplantı</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Create Content Modal -->
+    <div class="modal" id="createContentModal">
+        <div class="modal-overlay" onclick="hideCreateContentModal()"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Yeni İçerik Oluştur</h3>
+                <button class="modal-close" onclick="hideCreateContentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="content-form" id="contentForm">
+                    <div class="form-group">
+                        <label class="form-label">İçerik Türü</label>
+                        <div class="content-type-selection">
+                            <label class="content-type-card">
+                                <input type="radio" name="contentType" value="video" checked>
+                                <div class="type-content">
+                                    <i class="fas fa-video"></i>
+                                    <span>Video Dersi</span>
+                                </div>
+                            </label>
+                            <label class="content-type-card">
+                                <input type="radio" name="contentType" value="document">
+                                <div class="type-content">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <span>Doküman</span>
+                                </div>
+                            </label>
+                            <label class="content-type-card">
+                                <input type="radio" name="contentType" value="interactive">
+                                <div class="type-content">
+                                    <i class="fas fa-puzzle-piece"></i>
+                                    <span>İnteraktif</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentTitle" class="form-label">Başlık</label>
+                        <input type="text" id="contentTitle" class="form-input" placeholder="İçerik başlığını girin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentDescription" class="form-label">Açıklama</label>
+                        <textarea id="contentDescription" class="form-input" rows="3" placeholder="İçerik açıklamasını girin" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contentClass" class="form-label">Sınıf</label>
+                            <select id="contentClass" class="form-input" required>
+                                <option value="">Sınıf Seçin</option>
+                                <option value="8A">8. Sınıf A</option>
+                                <option value="9B">9. Sınıf B</option>
+                                <option value="10A">10. Sınıf A</option>
+                                <option value="10C">10. Sınıf C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentSubject" class="form-label">Konu</label>
+                            <input type="text" id="contentSubject" class="form-input" placeholder="Ders konusu" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Dosya Yükle</label>
+                        <div class="file-upload-area" id="contentFileUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Dosyayı buraya sürükleyin veya seçin</p>
+                            <input type="file" hidden accept="video/*,.pdf,.doc,.docx,.ppt,.pptx">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideCreateContentModal()">İptal</button>
+                <button class="btn btn-primary" onclick="createContent()">
+                    <i class="fas fa-plus"></i> İçerik Oluştur
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Quiz Modal -->
+    <div class="modal" id="createQuizModal">
+        <div class="modal-overlay" onclick="hideCreateQuizModal()"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Yeni Quiz Oluştur</h3>
+                <button class="modal-close" onclick="hideCreateQuizModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="quiz-form" id="quizForm">
+                    <div class="form-group">
+                        <label for="quizTitle" class="form-label">Quiz Başlığı</label>
+                        <input type="text" id="quizTitle" class="form-input" placeholder="Quiz başlığını girin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quizDescription" class="form-label">Açıklama</label>
+                        <textarea id="quizDescription" class="form-input" rows="2" placeholder="Quiz açıklamasını girin"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quizClass" class="form-label">Sınıf</label>
+                            <select id="quizClass" class="form-input" required>
+                                <option value="">Sınıf Seçin</option>
+                                <option value="8A">8. Sınıf A</option>
+                                <option value="9B">9. Sınıf B</option>
+                                <option value="10A">10. Sınıf A</option>
+                                <option value="10C">10. Sınıf C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quizDuration" class="form-label">Süre (dakika)</label>
+                            <input type="number" id="quizDuration" class="form-input" min="5" max="180" value="30">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quizQuestions" class="form-label">Soru Sayısı</label>
+                            <input type="number" id="quizQuestions" class="form-input" min="1" max="50" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="quizDeadline" class="form-label">Son Tarih</label>
+                            <input type="datetime-local" id="quizDeadline" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="quizShuffle">
+                            <span class="checkmark"></span>
+                            Soruları karıştır
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="quizShowResults" checked>
+                            <span class="checkmark"></span>
+                            Sonuçları hemen göster
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideCreateQuizModal()">İptal</button>
+                <button class="btn btn-primary" onclick="createQuiz()">
+                    <i class="fas fa-plus"></i> Quiz Oluştur
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Assignment Modal -->
+    <div class="modal" id="createAssignmentModal">
+        <div class="modal-overlay" onclick="hideCreateAssignmentModal()"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Yeni Ödev Oluştur</h3>
+                <button class="modal-close" onclick="hideCreateAssignmentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="assignment-form" id="assignmentForm">
+                    <div class="form-group">
+                        <label for="assignmentTitle" class="form-label">Ödev Başlığı</label>
+                        <input type="text" id="assignmentTitle" class="form-input" placeholder="Ödev başlığını girin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assignmentDescription" class="form-label">Ödev Açıklaması</label>
+                        <textarea id="assignmentDescription" class="form-input" rows="4" placeholder="Ödev açıklamasını ve yönergelerini girin" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="assignmentClass" class="form-label">Sınıf</label>
+                            <select id="assignmentClass" class="form-input" required>
+                                <option value="">Sınıf Seçin</option>
+                                <option value="8A">8. Sınıf A</option>
+                                <option value="9B">9. Sınıf B</option>
+                                <option value="10A">10. Sınıf A</option>
+                                <option value="10C">10. Sınıf C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentPoints" class="form-label">Puan</label>
+                            <input type="number" id="assignmentPoints" class="form-input" min="1" max="100" value="100">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assignmentDeadline" class="form-label">Son Teslim Tarihi</label>
+                        <input type="datetime-local" id="assignmentDeadline" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Kabul Edilen Dosya Türleri</label>
+                        <div class="file-types">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="fileTypes" value="pdf" checked>
+                                <span class="checkmark"></span>
+                                PDF
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="fileTypes" value="doc">
+                                <span class="checkmark"></span>
+                                DOC/DOCX
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="fileTypes" value="ppt">
+                                <span class="checkmark"></span>
+                                PPT/PPTX
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxFileSize" class="form-label">Maksimum Dosya Boyutu (MB)</label>
+                        <input type="number" id="maxFileSize" class="form-input" min="1" max="100" value="10">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideCreateAssignmentModal()">İptal</button>
+                <button class="btn btn-primary" onclick="createAssignment()">
+                    <i class="fas fa-plus"></i> Ödev Oluştur
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Message Modal -->
+    <div class="modal" id="bulkMessageModal">
+        <div class="modal-overlay" onclick="hideBulkMessageModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Toplu Mesaj Gönder</h3>
+                <button class="modal-close" onclick="hideBulkMessageModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="message-form" id="messageForm">
+                    <div class="form-group">
+                        <label for="messageRecipients" class="form-label">Alıcılar</label>
+                        <select id="messageRecipients" class="form-input" required>
+                            <option value="">Seçin</option>
+                            <option value="all">Tüm Öğrenciler</option>
+                            <option value="8A">8. Sınıf A</option>
+                            <option value="9B">9. Sınıf B</option>
+                            <option value="10A">10. Sınıf A</option>
+                            <option value="10C">10. Sınıf C</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="messageSubject" class="form-label">Konu</label>
+                        <input type="text" id="messageSubject" class="form-input" placeholder="Mesaj konusu" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="messageContent" class="form-label">Mesaj</label>
+                        <textarea id="messageContent" class="form-input" rows="4" placeholder="Mesaj içeriğini yazın" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="messageUrgent">
+                            <span class="checkmark"></span>
+                            Acil mesaj olarak işaretle
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideBulkMessageModal()">İptal</button>
+                <button class="btn btn-primary" onclick="sendBulkMessage()">
+                    <i class="fas fa-paper-plane"></i> Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/teacher-panel.js"></script>
+    <script src="../js/charts.js"></script>
+</body>
+</html>

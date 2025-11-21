@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınavlar - EduPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduPlatform</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="courses.html" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Derslerim</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="quiz.html" class="nav-link active">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Sınavlar</span>
+                        <span class="badge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="assignments.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Ödevler</span>
+                        <span class="badge warning">1</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="schedule.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>Program</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="grades.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Notlarım</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Mesajlar</span>
+                        <span class="badge">5</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="library.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span>Kütüphane</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profil</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Ayarlar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="../images/student-avatar.jpg" alt="Profil" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Ahmet Yılmaz</span>
+                    <span class="user-role">9. Sınıf Öğrencisi</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <span>Sınavlar</span>
+                </div>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Sınav ara..." id="quizSearch">
+                </div>
+                
+                <div class="topbar-actions">
+                    <button class="action-btn notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu" id="userMenu">
+                        <img src="../images/student-avatar.jpg" alt="Profil" class="user-avatar">
+                        <div class="dropdown" id="userDropdown">
+                            <a href="profile.html"><i class="fas fa-user"></i> Profil</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quiz Content -->
+        <div class="quiz-content" id="mainContent">
+            <!-- Page Header -->
+            <section class="page-header">
+                <div class="header-content">
+                    <h1><i class="fas fa-clipboard-check"></i> Sınavlar</h1>
+                    <p>Yapabileceğiniz sınavlar ve geçmiş sınav sonuçlarınız</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="filterBtn">
+                        <i class="fas fa-filter"></i> Filtrele
+                    </button>
+                    <button class="btn btn-primary" id="practiceBtn">
+                        <i class="fas fa-dumbbell"></i> Pratik Yap
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quiz Stats -->
+            <section class="quiz-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2</h3>
+                            <p>Bekleyen Sınav</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Tamamlanan</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>87.5</h3>
+                            <p>Ortalama Not</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>3</h3>
+                            <p>En Yüksek Puan</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Tabs -->
+            <section class="quiz-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="available">
+                        <i class="fas fa-play"></i> Müsait Sınavlar (2)
+                    </button>
+                    <button class="tab-btn" data-tab="completed">
+                        <i class="fas fa-check"></i> Tamamlanan (15)
+                    </button>
+                    <button class="tab-btn" data-tab="scheduled">
+                        <i class="fas fa-calendar"></i> Programlı (3)
+                    </button>
+                </div>
+            </section>
+
+            <!-- Available Quizzes -->
+            <section class="tab-content active" id="available">
+                <div class="quiz-grid">
+                    <!-- Quiz Card 1 -->
+                    <div class="quiz-card urgent">
+                        <div class="quiz-header">
+                            <div class="quiz-subject">
+                                <i class="fas fa-calculator"></i>
+                                <span>Matematik</span>
+                            </div>
+                            <div class="quiz-difficulty medium">
+                                <i class="fas fa-signal"></i>
+                                <span>Orta</span>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Fonksiyonlar - Ara Sınav</h3>
+                            <p class="quiz-description">
+                                İkinci ve üçüncü dereceden fonksiyonlar, grafikler ve dönüşümler konularını kapsayan değerlendirme sınavı.
+                            </p>
+                            
+                            <div class="quiz-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>25 Soru</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>45 Dakika</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-percentage"></i>
+                                    <span>100 Puan</span>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-deadline">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Son Tarih: 28 Ekim 2024, 23:59</span>
+                                <div class="countdown" data-deadline="2024-10-28T23:59:00">
+                                    <span class="days">2</span> gün 
+                                    <span class="hours">5</span> saat kaldı
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-actions">
+                            <button class="btn btn-primary" onclick="startQuiz(1)">
+                                <i class="fas fa-play"></i> Sınava Başla
+                            </button>
+                            <button class="btn btn-outline" onclick="showQuizDetails(1)">
+                                <i class="fas fa-info-circle"></i> Detaylar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Card 2 -->
+                    <div class="quiz-card">
+                        <div class="quiz-header">
+                            <div class="quiz-subject">
+                                <i class="fas fa-flask"></i>
+                                <span>Fen Bilimleri</span>
+                            </div>
+                            <div class="quiz-difficulty easy">
+                                <i class="fas fa-signal"></i>
+                                <span>Kolay</span>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Hücre Bölünmesi Quiz</h3>
+                            <p class="quiz-description">
+                                Mitoz ve mayoz bölünmeler, hücre siklusu ve genetik materyal aktarımı konularında bilgi ölçme testi.
+                            </p>
+                            
+                            <div class="quiz-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>20 Soru</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>30 Dakika</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-percentage"></i>
+                                    <span>100 Puan</span>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-attempts">
+                                <i class="fas fa-redo"></i>
+                                <span>3 deneme hakkınız var</span>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-actions">
+                            <button class="btn btn-primary" onclick="startQuiz(2)">
+                                <i class="fas fa-play"></i> Sınava Başla
+                            </button>
+                            <button class="btn btn-outline" onclick="showQuizDetails(2)">
+                                <i class="fas fa-info-circle"></i> Detaylar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Completed Quizzes -->
+            <section class="tab-content" id="completed">
+                <div class="quiz-results">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="subject-info">
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <h4>Türk Dili ve Edebiyatı</h4>
+                                    <span>Şiir Analizi Testi</span>
+                                </div>
+                            </div>
+                            <div class="result-score excellent">
+                                <span class="score">92</span>
+                                <span class="max">/100</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-content">
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <span class="label">Doğru:</span>
+                                    <span class="value">18/20</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Süre:</span>
+                                    <span class="value">23 dk</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Tarih:</span>
+                                    <span class="value">25 Ekim</span>
+                                </div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="btn btn-outline btn-small" onclick="viewQuizResult(1)">
+                                    <i class="fas fa-eye"></i> Sonuçları Gör
+                                </button>
+                                <button class="btn btn-ghost btn-small" onclick="retakeQuiz(1)">
+                                    <i class="fas fa-redo"></i> Tekrar Çöz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="subject-info">
+                                <i class="fas fa-calculator"></i>
+                                <div>
+                                    <h4>Matematik</h4>
+                                    <span>Geometri - Üçgenler</span>
+                                </div>
+                            </div>
+                            <div class="result-score good">
+                                <span class="score">78</span>
+                                <span class="max">/100</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-content">
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <span class="label">Doğru:</span>
+                                    <span class="value">15/20</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Süre:</span>
+                                    <span class="value">35 dk</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Tarih:</span>
+                                    <span class="value">22 Ekim</span>
+                                </div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="btn btn-outline btn-small" onclick="viewQuizResult(2)">
+                                    <i class="fas fa-eye"></i> Sonuçları Gör
+                                </button>
+                                <button class="btn btn-ghost btn-small" onclick="retakeQuiz(2)">
+                                    <i class="fas fa-redo"></i> Tekrar Çöz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="subject-info">
+                                <i class="fas fa-flask"></i>
+                                <div>
+                                    <h4>Fen Bilimleri</h4>
+                                    <span>Elektrik ve Manyetizma</span>
+                                </div>
+                            </div>
+                            <div class="result-score average">
+                                <span class="score">65</span>
+                                <span class="max">/100</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-content">
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <span class="label">Doğru:</span>
+                                    <span class="value">13/20</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Süre:</span>
+                                    <span class="value">28 dk</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="label">Tarih:</span>
+                                    <span class="value">20 Ekim</span>
+                                </div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="btn btn-outline btn-small" onclick="viewQuizResult(3)">
+                                    <i class="fas fa-eye"></i> Sonuçları Gör
+                                </button>
+                                <button class="btn btn-ghost btn-small" onclick="retakeQuiz(3)">
+                                    <i class="fas fa-redo"></i> Tekrar Çöz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scheduled Quizzes -->
+            <section class="tab-content" id="scheduled">
+                <div class="scheduled-quizzes">
+                    <div class="schedule-card">
+                        <div class="schedule-date">
+                            <div class="day">30</div>
+                            <div class="month">Ekim</div>
+                        </div>
+                        <div class="schedule-content">
+                            <h4>Tarih - Osmanlı Devleti</h4>
+                            <p>Kuruluş dönemi ve ilk dönem Osmanlı tarihi</p>
+                            <div class="schedule-time">
+                                <i class="fas fa-clock"></i>
+                                <span>14:00 - 15:30</span>
+                            </div>
+                        </div>
+                        <div class="schedule-actions">
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-bell"></i> Hatırlat
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="schedule-card">
+                        <div class="schedule-date">
+                            <div class="day">2</div>
+                            <div class="month">Kas</div>
+                        </div>
+                        <div class="schedule-content">
+                            <h4>İngilizce - Present Perfect</h4>
+                            <p>Present Perfect Tense kullanımı ve örnekleri</p>
+                            <div class="schedule-time">
+                                <i class="fas fa-clock"></i>
+                                <span>10:00 - 11:00</span>
+                            </div>
+                        </div>
+                        <div class="schedule-actions">
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-bell"></i> Hatırlat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Quiz Taking Interface -->
+        <div class="quiz-interface hidden" id="quizInterface">
+            <!-- Quiz Header -->
+            <div class="quiz-header-bar">
+                <div class="quiz-info">
+                    <h2 id="quizTitle">Fonksiyonlar - Ara Sınav</h2>
+                    <span id="quizSubject">Matematik</span>
+                </div>
+                
+                <div class="quiz-timer">
+                    <div class="timer-circle">
+                        <span id="timerMinutes">45</span>:<span id="timerSeconds">00</span>
+                    </div>
+                </div>
+                
+                <div class="quiz-progress">
+                    <span id="currentQuestion">1</span> / <span id="totalQuestions">25</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Container -->
+            <div class="question-container">
+                <div class="question-header">
+                    <span class="question-number">Soru <span id="questionNum">1</span></span>
+                    <div class="question-actions">
+                        <button class="btn-icon" onclick="flagQuestion()" id="flagBtn">
+                            <i class="far fa-flag"></i>
+                        </button>
+                        <button class="btn-icon" onclick="showCalculator()">
+                            <i class="fas fa-calculator"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="question-content">
+                    <div class="question-text" id="questionText">
+                        f(x) = 2x² + 3x - 1 fonksiyonun x = 2 noktasındaki değeri nedir?
+                    </div>
+                    
+                    <div class="question-image" id="questionImage" style="display: none;">
+                        <img src="" alt="Soru görseli">
+                    </div>
+                    
+                    <div class="options-container" id="optionsContainer">
+                        <div class="option" onclick="selectOption(0)">
+                            <input type="radio" name="answer" id="option0" value="0">
+                            <label for="option0">
+                                <span class="option-letter">A)</span>
+                                <span class="option-text">13</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option" onclick="selectOption(1)">
+                            <input type="radio" name="answer" id="option1" value="1">
+                            <label for="option1">
+                                <span class="option-letter">B)</span>
+                                <span class="option-text">15</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option" onclick="selectOption(2)">
+                            <input type="radio" name="answer" id="option2" value="2">
+                            <label for="option2">
+                                <span class="option-letter">C)</span>
+                                <span class="option-text">17</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option" onclick="selectOption(3)">
+                            <input type="radio" name="answer" id="option3" value="3">
+                            <label for="option3">
+                                <span class="option-letter">D)</span>
+                                <span class="option-text">19</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option" onclick="selectOption(4)">
+                            <input type="radio" name="answer" id="option4" value="4">
+                            <label for="option4">
+                                <span class="option-letter">E)</span>
+                                <span class="option-text">21</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question-navigation">
+                    <button class="btn btn-outline" onclick="previousQuestion()" id="prevBtn" disabled>
+                        <i class="fas fa-chevron-left"></i> Önceki
+                    </button>
+                    
+                    <div class="question-grid-btn">
+                        <button class="btn btn-ghost" onclick="showQuestionGrid()">
+                            <i class="fas fa-th"></i> Sorular
+                        </button>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
+                        Sonraki <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Grid Modal -->
+            <div class="question-grid-modal" id="questionGridModal">
+                <div class="modal-overlay" onclick="hideQuestionGrid()"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Sorular</h3>
+                        <button class="modal-close" onclick="hideQuestionGrid()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="question-grid" id="questionGrid">
+                            <!-- Questions will be generated here -->
+                        </div>
+                        <div class="grid-legend">
+                            <div class="legend-item">
+                                <span class="legend-color answered"></span>
+                                <span>Cevaplanmış</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color flagged"></span>
+                                <span>İşaretlenmiş</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color current"></span>
+                                <span>Mevcut</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color unanswered"></span>
+                                <span>Cevaplanmamış</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Actions -->
+            <div class="quiz-actions-bar">
+                <button class="btn btn-warning" onclick="pauseQuiz()">
+                    <i class="fas fa-pause"></i> Duraklat
+                </button>
+                
+                <button class="btn btn-success" onclick="finishQuiz()">
+                    <i class="fas fa-check"></i> Sınavı Bitir
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Calculator Modal -->
+    <div class="modal" id="calculatorModal">
+        <div class="modal-overlay" onclick="hideCalculator()"></div>
+        <div class="modal-content calculator">
+            <div class="modal-header">
+                <h3>Hesap Makinesi</h3>
+                <button class="modal-close" onclick="hideCalculator()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="calculator-display">
+                    <input type="text" id="calculatorDisplay" readonly>
+                </div>
+                <div class="calculator-buttons">
+                    <button onclick="clearCalculator()">C</button>
+                    <button onclick="deleteLast()">⌫</button>
+                    <button onclick="appendToCalculator('/')">/</button>
+                    <button onclick="appendToCalculator('*')">×</button>
+                    
+                    <button onclick="appendToCalculator('7')">7</button>
+                    <button onclick="appendToCalculator('8')">8</button>
+                    <button onclick="appendToCalculator('9')">9</button>
+                    <button onclick="appendToCalculator('-')">-</button>
+                    
+                    <button onclick="appendToCalculator('4')">4</button>
+                    <button onclick="appendToCalculator('5')">5</button>
+                    <button onclick="appendToCalculator('6')">6</button>
+                    <button onclick="appendToCalculator('+')">+</button>
+                    
+                    <button onclick="appendToCalculator('1')">1</button>
+                    <button onclick="appendToCalculator('2')">2</button>
+                    <button onclick="appendToCalculator('3')">3</button>
+                    <button onclick="calculate()" class="equals" rowspan="2">=</button>
+                    
+                    <button onclick="appendToCalculator('0')" colspan="2">0</button>
+                    <button onclick="appendToCalculator('.')">.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Results Modal -->
+    <div class="modal" id="quizResultModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Sınav Sonucu</h3>
+                <button class="modal-close" onclick="hideQuizResult()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="result-summary">
+                    <div class="result-circle">
+                        <div class="circle-progress" data-percentage="85">
+                            <span class="percentage">85%</span>
+                        </div>
+                    </div>
+                    <div class="result-details">
+                        <h4>Tebrikler!</h4>
+                        <p>Sınavı başarıyla tamamladınız.</p>
+                        <div class="result-stats-grid">
+                            <div class="stat">
+                                <span class="label">Toplam Puan:</span>
+                                <span class="value">85/100</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Doğru Cevap:</span>
+                                <span class="value">21/25</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Geçen Süre:</span>
+                                <span class="value">38 dakika</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Başarı Oranı:</span>
+                                <span class="value">%84</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="viewDetailedResults()">
+                        <i class="fas fa-chart-bar"></i> Detaylı Sonuçlar
+                    </button>
+                    <button class="btn btn-outline" onclick="retakeQuiz()">
+                        <i class="fas fa-redo"></i> Tekrar Çöz
+                    </button>
+                    <button class="btn btn-success" onclick="shareResult()">
+                        <i class="fas fa-share"></i> Paylaş
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notlarım - StudyTracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="brand">
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="deneme-analizi.html"><i class="fas fa-chart-line"></i> Deneme Analizi</a>
+                    <a href="calisma-plani.html"><i class="fas fa-calendar-check"></i> Çalışma Planı</a>
+                    <a href="sure-yonetimi.html"><i class="fas fa-clock"></i> Süre Yönetimi</a>
+                    <a href="notlarim.html" class="active"><i class="fas fa-sticky-note"></i> Notlarım</a>
+                </nav>
+                <div class="user-info">
+                    <span id="userName">Öğrenci</span>
+                    <button onclick="logout()" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-sticky-note"></i> Dijital Notlarım</h2>
+                <p>Ders notlarınızı organize edin ve kolayca erişin</p>
+            </div>
+
+            <!-- Notes Actions -->
+            <section class="notes-actions">
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="createNewNote()">
+                        <i class="fas fa-plus"></i> Yeni Not
+                    </button>
+                    <button class="btn btn-outline" onclick="importNote()">
+                        <i class="fas fa-upload"></i> İçe Aktar
+                    </button>
+                    <button class="btn btn-outline" onclick="exportNotes()">
+                        <i class="fas fa-download"></i> Dışa Aktar
+                    </button>
+                </div>
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Notlarda ara..." id="searchInput">
+                    </div>
+                    <select id="subjectFilter">
+                        <option value="">Tüm Dersler</option>
+                        <option value="matematik">Matematik</option>
+                        <option value="fizik">Fizik</option>
+                        <option value="kimya">Kimya</option>
+                        <option value="biyoloji">Biyoloji</option>
+                        <option value="turkce">Türkçe</option>
+                        <option value="tarih">Tarih</option>
+                        <option value="cografya">Coğrafya</option>
+                        <option value="ingilizce">İngilizce</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Notes Grid -->
+            <section class="notes-section">
+                <div class="notes-grid" id="notesGrid">
+                    <!-- Notlar dinamik olarak oluşturulacak -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Note Editor Modal -->
+    <div class="modal-overlay" id="noteModal">
+        <div class="modal note-modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Yeni Not</h3>
+                <button class="close-btn" onclick="closeNoteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="note-editor">
+                <div class="note-meta">
+                    <input type="text" id="noteTitle" placeholder="Not başlığı..." class="note-title-input">
+                    <div class="note-meta-row">
+                        <select id="noteSubject">
+                            <option value="">Ders seçiniz</option>
+                            <option value="matematik">Matematik</option>
+                            <option value="fizik">Fizik</option>
+                            <option value="kimya">Kimya</option>
+                            <option value="biyoloji">Biyoloji</option>
+                            <option value="turkce">Türkçe</option>
+                            <option value="tarih">Tarih</option>
+                            <option value="cografya">Coğrafya</option>
+                            <option value="ingilizce">İngilizce</option>
+                            <option value="other">Diğer</option>
+                        </select>
+                        <div class="color-picker">
+                            <span>Renk:</span>
+                            <div class="color-options">
+                                <div class="color-option active" data-color="#667eea" style="background: #667eea;"></div>
+                                <div class="color-option" data-color="#ef4444" style="background: #ef4444;"></div>
+                                <div class="color-option" data-color="#22c55e" style="background: #22c55e;"></div>
+                                <div class="color-option" data-color="#f59e0b" style="background: #f59e0b;"></div>
+                                <div class="color-option" data-color="#8b5cf6" style="background: #8b5cf6;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor-toolbar">
+                    <button type="button" onclick="formatText('bold')" title="Kalın">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button type="button" onclick="formatText('italic')" title="İtalik">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button type="button" onclick="formatText('underline')" title="Altı çizili">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                    <button type="button" onclick="formatText('insertUnorderedList')" title="Liste">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button type="button" onclick="formatText('insertOrderedList')" title="Numaralı liste">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    <button type="button" onclick="insertMath()" title="Matematik formülü">
+                        <i class="fas fa-square-root-alt"></i>
+                    </button>
+                </div>
+                <div class="note-content-editor" id="noteContent" contenteditable="true" placeholder="Notunuzu buraya yazın...">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="closeNoteModal()">İptal</button>
+                    <button class="btn btn-primary" onclick="saveNote()">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let notes = JSON.parse(localStorage.getItem('studyNotes') || '[]');
+        let currentNote = null;
+        let selectedColor = '#667eea';
+
+        // Load user info
+        function loadUserInfo() {
+            const userData = JSON.parse(localStorage.getItem('eduplatform_user') || sessionStorage.getItem('eduplatform_user') || '{}');
+            if (userData.username) {
+                document.getElementById('userName').textContent = userData.username;
+            }
+        }
+
+        // Create new note
+        function createNewNote() {
+            currentNote = null;
+            document.getElementById('modalTitle').textContent = 'Yeni Not';
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteSubject').value = '';
+            document.getElementById('noteContent').innerHTML = '';
+            document.getElementById('noteModal').classList.add('active');
+        }
+
+        // Edit existing note
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            if (!note) return;
+
+            currentNote = note;
+            document.getElementById('modalTitle').textContent = 'Notu Düzenle';
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteSubject').value = note.subject;
+            document.getElementById('noteContent').innerHTML = note.content;
+            selectedColor = note.color || '#667eea';
+            
+            // Update color picker
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.color === selectedColor) {
+                    opt.classList.add('active');
+                }
+            });
+
+            document.getElementById('noteModal').classList.add('active');
+        }
+
+        // Close note modal
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('active');
+            currentNote = null;
+        }
+
+        // Save note
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const subject = document.getElementById('noteSubject').value;
+            const content = document.getElementById('noteContent').innerHTML;
+
+            if (!title) {
+                showToast('Lütfen not başlığı girin!', 'error');
+                return;
+            }
+
+            if (!content.trim()) {
+                showToast('Lütfen not içeriği girin!', 'error');
+                return;
+            }
+
+            if (currentNote) {
+                // Edit existing
+                currentNote.title = title;
+                currentNote.subject = subject;
+                currentNote.content = content;
+                currentNote.color = selectedColor;
+                currentNote.updatedAt = new Date().toISOString();
+            } else {
+                // Create new
+                const note = {
+                    id: Date.now().toString(),
+                    title: title,
+                    subject: subject,
+                    content: content,
+                    color: selectedColor,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                notes.push(note);
+            }
+
+            localStorage.setItem('studyNotes', JSON.stringify(notes));
+            renderNotes();
+            closeNoteModal();
+            showToast(currentNote ? 'Not güncellendi!' : 'Not kaydedildi!', 'success');
+        }
+
+        // Delete note
+        function deleteNote(id) {
+            if (confirm('Bu notu silmek istediğinizden emin misiniz?')) {
+                notes = notes.filter(n => n.id !== id);
+                localStorage.setItem('studyNotes', JSON.stringify(notes));
+                renderNotes();
+                showToast('Not silindi.', 'success');
+            }
+        }
+
+        // Render notes
+        function renderNotes(filteredNotes = null) {
+            const container = document.getElementById('notesGrid');
+            const notesToShow = filteredNotes || notes;
+
+            if (notesToShow.length === 0) {
+                container.innerHTML = '<div class="no-notes">Henüz not eklenmemiş. İlk notunuzu oluşturun!</div>';
+                return;
+            }
+
+            container.innerHTML = notesToShow.map(note => `
+                <div class="note-card" style="border-left-color: ${note.color || '#667eea'}">
+                    <div class="note-header">
+                        <h3 class="note-title">${note.title}</h3>
+                        <div class="note-actions">
+                            <button onclick="editNote('${note.id}')" title="Düzenle">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteNote('${note.id}')" title="Sil">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="note-meta">
+                        ${note.subject ? `<span class="note-subject">${note.subject}</span>` : ''}
+                        <span class="note-date">${new Date(note.updatedAt).toLocaleDateString('tr-TR')}</span>
+                    </div>
+                    <div class="note-preview">${note.content.substring(0, 200)}...</div>
+                </div>
+            `).join('');
+        }
+
+        // Text formatting
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('noteContent').focus();
+        }
+
+        // Insert math formula placeholder
+        function insertMath() {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const mathElement = document.createElement('span');
+                mathElement.className = 'math-formula';
+                mathElement.textContent = '[Matematik Formülü]';
+                range.deleteContents();
+                range.insertNode(mathElement);
+            }
+        }
+
+        // Color picker
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                selectedColor = this.dataset.color;
+            });
+        });
+
+        // Search and filter
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const subject = document.getElementById('subjectFilter').value;
+            filterNotes(query, subject);
+        });
+
+        document.getElementById('subjectFilter').addEventListener('change', function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const subject = this.value;
+            filterNotes(query, subject);
+        });
+
+        function filterNotes(searchQuery, subject) {
+            let filtered = notes;
+
+            if (searchQuery) {
+                filtered = filtered.filter(note => 
+                    note.title.toLowerCase().includes(searchQuery) || 
+                    note.content.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            if (subject) {
+                filtered = filtered.filter(note => note.subject === subject);
+            }
+
+            renderNotes(filtered);
+        }
+
+        // Import note (placeholder)
+        function importNote() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.html,.md';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        // Create note from imported content
+                        const note = {
+                            id: Date.now().toString(),
+                            title: file.name.replace(/\.[^/.]+$/, ""),
+                            subject: '',
+                            content: content.replace(/\n/g, '<br>'),
+                            color: '#667eea',
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        };
+                        notes.push(note);
+                        localStorage.setItem('studyNotes', JSON.stringify(notes));
+                        renderNotes();
+                        showToast('Not içe aktarıldı!', 'success');
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        // Export notes
+        function exportNotes() {
+            if (notes.length === 0) {
+                showToast('Dışa aktarılacak not bulunmuyor!', 'error');
+                return;
+            }
+
+            let exportText = 'StudyTracker - Notlarım\n\n';
+            notes.forEach(note => {
+                exportText += `${note.title}\n`;
+                exportText += `Ders: ${note.subject || 'Belirtilmemiş'}\n`;
+                exportText += `Tarih: ${new Date(note.updatedAt).toLocaleDateString('tr-TR')}\n`;
+                exportText += '---\n';
+                exportText += note.content.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ') + '\n\n\n';
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `notlarim-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Notlar dışa aktarıldı!', 'success');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('eduplatform_user');
+            sessionStorage.removeItem('eduplatform_user');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            renderNotes();
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles (same as other pages) */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .brand h1 {
+            color: #334155;
+            font-size: 1.5rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            color: #64748b;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .main-content {
+            padding: 30px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h2 {
+            color: #334155;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header h2 i {
+            color: #667eea;
+            margin-right: 10px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Notes Actions */
+        .notes-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .search-box input {
+            padding: 10px 15px 10px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        #subjectFilter {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        /* Notes Grid */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .note-title {
+            color: #334155;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .note-card:hover .note-actions {
+            opacity: 1;
+        }
+
+        .note-actions button {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .note-actions button:hover {
+            background: #f1f5f9;
+            color: #667eea;
+        }
+
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .note-subject {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .note-date {
+            color: #64748b;
+        }
+
+        .note-preview {
+            color: #64748b;
+            line-height: 1.6;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .no-notes {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .note-modal {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-header h3 {
+            color: #334155;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .note-editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+        }
+
+        .note-meta {
+            margin-bottom: 20px;
+        }
+
+        .note-title-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .note-title-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .note-meta-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .note-meta-row select {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .color-option {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-option.active {
+            border-color: #334155;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .editor-toolbar button {
+            padding: 8px 10px;
+            border: none;
+            background: none;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .editor-toolbar button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .note-content-editor {
+            flex: 1;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 300px;
+            font-size: 1rem;
+            line-height: 1.6;
+            outline: none;
+            background: white;
+        }
+
+        .note-content-editor:focus {
+            border-color: #667eea;
+        }
+
+        .note-content-editor[contenteditable]:empty::before {
+            content: attr(placeholder);
+            color: #94a3b8;
+        }
+
+        .math-formula {
+            background: #f1f5f9;
+            color: #667eea;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            border-left: 4px solid #22c55e;
+        }
+
+        .toast-error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .toast-success i {
+            color: #22c55e;
+        }
+
+        .toast-error i {
+            color: #ef4444;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .notes-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .note-modal {
+                width: 95%;
+                height: 90vh;
+            }
+
+            .note-meta-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .editor-toolbar {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</body>
+</html>

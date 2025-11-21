@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Öğretmen Chat - K12 Platformu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Üst Navigasyon -->
+  <nav class="navbar" style="background: var(--primary-600); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <i class="fas fa-comments" style="font-size: 1.5rem;"></i>
+      <h1 style="margin: 0; font-size: 1.2rem;">Öğretmen Chat</h1>
+    </div>
+    <a href="dashboard.html" class="btn btn-ghost" style="color: white; border-color: rgba(255,255,255,0.3);">
+      <i class="fas fa-arrow-left"></i> Dashboard'a Dön
+    </a>
+  </nav>
+
+  <!-- Ana Chat Konteyneri -->
+  <div class="chat-container">
+    
+    <!-- Yan Panel: Öğretmenler Listesi -->
+    <aside class="chat-sidebar">
+      
+      <!-- Sidebar Başlığı -->
+      <div class="chat-sidebar-header">
+        <h3>Öğretmenler</h3>
+        <div class="current-user">
+          <i class="fas fa-circle" style="color: var(--success-500); margin-right: 0.5rem;"></i>
+          <span id="currentUserName">Öğrenci</span>
+        </div>
+      </div>
+
+      <!-- Öğretmen Arama -->
+      <div class="teacher-search">
+        <input type="text" id="teacherSearch" placeholder="Öğretmen ara..." style="padding: 0.75rem; border: 1px solid var(--secondary-300); border-radius: 0.5rem; width: 100%; font-size: 0.9rem;">
+      </div>
+
+      <!-- Öğretmenler Listesi -->
+      <div class="teachers-list" id="teachersList">
+        <!-- Öğretmen listesi buraya gelecek -->
+      </div>
+      
+      <div class="chat-user-info" style="padding: 1rem; border-top: 1px solid var(--secondary-200); background: var(--secondary-50);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-600); display: flex; align-items: center; justify-content: center; color: white;">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <div id="currentUserName" style="font-weight: 500; color: var(--secondary-800);">Öğrenci</div>
+            <div id="currentUserStatus" style="font-size: 0.8rem; color: var(--secondary-500);">Çevrimiçi</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Ana Panel: Chat Alanı -->
+    <main class="chat-main" style="flex-grow: 1; display: flex; flex-direction: column;">
+      
+      <!-- Chat Başlığı -->
+      <header class="chat-main-header" style="padding: 1.5rem; border-bottom: 1px solid var(--secondary-200); background: white; display: flex; justify-content: space-between; align-items: center;">
+        <div id="activeChatHeader" style="display: flex; align-items: center; gap: 1rem;">
+          <div class="teacher-avatar" style="width: 50px; height: 50px; border-radius: 50%; background: var(--success-500); display: flex; align-items: center; justify-content: center; color: white;">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <div>
+            <h4 id="activeTeacherName" style="margin: 0; color: var(--secondary-800);">Öğretmen seçin</h4>
+            <div id="activeTeacherSubject" style="font-size: 0.85rem; color: var(--secondary-500);">Mesajlaşmak için sol panelden bir öğretmen seçin</div>
+          </div>
+        </div>
+        <div class="chat-actions">
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <div class="topic-reminder" style="
+              background: var(--info-50);
+              color: var(--info-700);
+              padding: 0.25rem 0.75rem;
+              border-radius: 1rem;
+              font-size: 0.7rem;
+              display: none;
+            " id="topicReminder">
+              <i class="fas fa-graduation-cap" style="margin-right: 0.25rem;"></i>
+              <span id="currentSubject">Matematik</span> dersi odaklı kalın
+            </div>
+            <button id="suggestionsBtn" class="btn btn-ghost btn-sm" title="Akıllı Öneriler" style="display: none;">
+              <i class="fas fa-lightbulb"></i>
+            </button>
+            <button class="btn btn-outline btn-sm" id="clearChatBtn" style="display: none;"><i class="fas fa-trash"></i> Temizle</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Mesajlar Alanı -->
+      <section class="chat-messages" id="chatMessages" style="flex-grow: 1; padding: 1rem; overflow-y: auto; background: var(--secondary-50);">
+        <div class="welcome-message" style="text-align: center; padding: 3rem 1rem; color: var(--secondary-500);">
+          <i class="fas fa-comments" style="font-size: 3rem; color: var(--secondary-300); margin-bottom: 1rem;"></i>
+          <h4>Hoş geldiniz!</h4>
+          <p>Öğretmenlerinizle mesajlaşmak için sol panelden birini seçin.</p>
+          <div style="margin-top: 2rem; padding: 1rem; background: var(--info-50); border-radius: 0.75rem; border: 1px solid var(--info-200);">
+            <i class="fas fa-info-circle" style="color: var(--info-600); margin-right: 0.5rem;"></i>
+            <strong>Hatırlatma:</strong> Lütfen konuşmalarınızı ders konuları ile sınırlı tutun.
+          </div>
+        </div>
+      </section>
+
+      <!-- Mesaj Giriş Alanı -->
+      <section class="chat-input-area" style="padding: 1rem 1.5rem; border-top: 1px solid var(--secondary-200); background: white; position: relative;">
+        <form id="messageForm" class="chat-input-form" style="display: flex; gap: 0.75rem; align-items: flex-end;">
+          <input 
+            type="text" 
+            id="messageInput" 
+            class="form-input" 
+            placeholder="Mesajınızı yazın... (Çift tıklayarak öneriler)" 
+            disabled
+            style="flex-grow: 1; padding: 0.75rem 1rem; border-radius: 1.5rem; resize: none; outline: none;"
+          >
+          <button 
+            type="submit" 
+            id="sendBtn"
+            class="chat-send-btn"
+            disabled
+            style="width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--primary-600); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+          >
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </section>
+
+    </main>
+    
+  </div>
+
+  <script src="js/chat.js"></script>
+</body>
+</html>
