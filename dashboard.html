@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EduPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduPlatform</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="courses.html" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Derslerim</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="quiz.html" class="nav-link">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Sınavlar</span>
+                        <span class="badge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="assignments.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Ödevler</span>
+                        <span class="badge warning">1</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="schedule.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>Program</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="grades.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Notlarım</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Mesajlar</span>
+                        <span class="badge">5</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="library.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span>Kütüphane</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profil</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Ayarlar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="../images/student-avatar.jpg" alt="Profil" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Ahmet Yılmaz</span>
+                    <span class="user-role">9. Sınıf Öğrencisi</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Ders, öğretmen veya konu ara...">
+                </div>
+                
+                <div class="topbar-actions">
+                    <button class="action-btn notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu" id="userMenu">
+                        <img src="../images/student-avatar.jpg" alt="Profil" class="user-avatar">
+                        <div class="dropdown" id="userDropdown">
+                            <a href="profile.html"><i class="fas fa-user"></i> Profil</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-card">
+                    <div class="welcome-text">
+                        <h1>Hoşgeldin, Ahmet! 👋</h1>
+                        <p>Bu hafta <strong>3 ders</strong> ve <strong>1 ödev</strong> teslim tarihin var. Hadi başlayalım!</p>
+                        <div class="welcome-actions">
+                            <button class="btn btn-primary" onclick="window.location.href='courses.html'">
+                                <i class="fas fa-play"></i> Derslere Devam Et
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-calendar"></i> Bu Haftaki Programım
+                            </button>
+                        </div>
+                    </div>
+                    <div class="welcome-image">
+                        <img src="../images/welcome-dashboard.svg" alt="Dashboard">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>3</h3>
+                            <p>Aktif Dersim</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> +1 bu ay
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>87%</h3>
+                            <p>Tamamlanma Oranı</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> +5% bu hafta
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1</h3>
+                            <p>Bekleyen Ödev</p>
+                            <span class="stat-deadline">2 gün kaldı</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>85</h3>
+                            <p>Ortalama Not</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> +3 puan
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-grid">
+                <!-- Recent Activities -->
+                <section class="recent-activities">
+                    <div class="section-header">
+                        <h2><i class="fas fa-history"></i> Son Aktiviteler</h2>
+                        <a href="#" class="view-all">Tümünü Gör</a>
+                    </div>
+                    
+                    <div class="activities-list">
+                        <div class="activity-item">
+                            <div class="activity-icon completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Matematik Quiz 3 tamamlandı</h4>
+                                <p>Not: 92/100 - Mükemmel performans!</p>
+                                <span class="activity-time">2 saat önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon video">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Fonksiyonlar konusu izlendi</h4>
+                                <p>Ders süresi: 45 dakika</p>
+                                <span class="activity-time">5 saat önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon assignment">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Fen Bilimleri ödevi teslim edildi</h4>
+                                <p>Değerlendirme bekleniyor</p>
+                                <span class="activity-time">1 gün önce</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon new">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Yeni ders eklendi: Türkçe</h4>
+                                <p>Dil bilgisi konuları</p>
+                                <span class="activity-time">2 gün önce</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Events -->
+                <section class="upcoming-events">
+                    <div class="section-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Yaklaşan Etkinlikler</h2>
+                        <a href="schedule.html" class="view-all">Takvimi Gör</a>
+                    </div>
+                    
+                    <div class="events-list">
+                        <div class="event-item urgent">
+                            <div class="event-date">
+                                <span class="day">26</span>
+                                <span class="month">Eki</span>
+                            </div>
+                            <div class="event-content">
+                                <h4>Matematik Sınavı</h4>
+                                <p><i class="fas fa-clock"></i> 09:00 - 10:30</p>
+                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                <span class="event-type">Sınav</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-item">
+                            <div class="event-date">
+                                <span class="day">28</span>
+                                <span class="month">Eki</span>
+                            </div>
+                            <div class="event-content">
+                                <h4>Fen Lab Ödevi Teslimi</h4>
+                                <p><i class="fas fa-clock"></i> 23:59'a kadar</p>
+                                <p><i class="fas fa-file"></i> PDF formatında</p>
+                                <span class="event-type assignment">Ödev</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-item">
+                            <div class="event-date">
+                                <span class="day">30</span>
+                                <span class="month">Eki</span>
+                            </div>
+                            <div class="event-content">
+                                <h4>Türkçe Canlı Ders</h4>
+                                <p><i class="fas fa-clock"></i> 14:00 - 15:00</p>
+                                <p><i class="fas fa-video"></i> Video konferans</p>
+                                <span class="event-type live">Canlı Ders</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Progress Charts -->
+            <section class="progress-section">
+                <div class="progress-grid">
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Bu Ay İlerleme</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="progressChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-pie"></i> Ders Dağılımı</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="subjectChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="color-box" style="background: #4F46E5;"></span>
+                                <span>Matematik (40%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color-box" style="background: #059669;"></span>
+                                <span>Fen Bilimleri (35%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color-box" style="background: #DC2626;"></span>
+                                <span>Türkçe (25%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <div class="section-header">
+                    <h2><i class="fas fa-bolt"></i> Hızlı İşlemler</h2>
+                </div>
+                
+                <div class="actions-grid">
+                    <button class="action-card" onclick="window.location.href='quiz.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Sınav Başlat</h4>
+                            <p>Bekleyen sınavlarını tamamla</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="window.location.href='assignments.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Ödev Teslim Et</h4>
+                            <p>Bekleyen ödevlerini yükle</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="window.location.href='courses.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Video İzle</h4>
+                            <p>Ders videolarına devam et</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="window.location.href='messages.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Öğretmenle İletişim</h4>
+                            <p>Soru sor ve destek al</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3>Bildirimler</h3>
+            <button class="close-btn" id="closeNotifications">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="notifications-list">
+            <div class="notification-item unread">
+                <div class="notification-icon success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>Quiz Başarıyla Tamamlandı</h4>
+                    <p>Matematik Quiz 3 - Not: 92/100</p>
+                    <span class="notification-time">2 saat önce</span>
+                </div>
+            </div>
+            
+            <div class="notification-item unread">
+                <div class="notification-icon warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>Ödev Teslim Tarihi Yaklaşıyor</h4>
+                    <p>Fen Bilimleri Lab Raporu - 2 gün kaldı</p>
+                    <span class="notification-time">5 saat önce</span>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon info">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>Yeni Ders İçeriği</h4>
+                    <p>Türkçe - Dil Bilgisi konusu eklendi</p>
+                    <span class="notification-time">1 gün önce</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="notification-footer">
+            <button class="btn btn-text">Tüm Bildirimleri Görüntüle</button>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/notifications.js"></script>
+</body>
+</html>

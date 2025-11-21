@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlerleme Takibi - K-12 Eğitim Platformu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1><i class="fas fa-graduation-cap"></i> K-12 Platform</h1>
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Ana Sayfa</a>
+                <a href="courses.html"><i class="fas fa-book"></i> Dersler</a>
+                <a href="lesson-content.html"><i class="fas fa-play-circle"></i> İçerikler</a>
+                <a href="assignments.html"><i class="fas fa-tasks"></i> Ödevler</a>
+                <a href="quiz.html"><i class="fas fa-question-circle"></i> Sınavlar</a>
+                <a href="progress.html" class="active"><i class="fas fa-chart-line"></i> İlerleme</a>
+            </nav>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="Profil" class="user-avatar">
+                    <span>Öğrenci Adı</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-chart-line"></i> İlerleme Raporu</h3>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <h4>Genel Bakış</h4>
+                    <ul class="menu-list">
+                        <li><a href="#" onclick="showProgressTab('overview')" class="menu-item active">
+                            <i class="fas fa-tachometer-alt"></i> Özet
+                        </a></li>
+                        <li><a href="#" onclick="showProgressTab('subjects')" class="menu-item">
+                            <i class="fas fa-book-open"></i> Dersler
+                        </a></li>
+                        <li><a href="#" onclick="showProgressTab('achievements')" class="menu-item">
+                            <i class="fas fa-trophy"></i> Başarılar
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <h4>Detaylı Raporlar</h4>
+                    <ul class="menu-list">
+                        <li><a href="#" onclick="showProgressTab('analytics')" class="menu-item">
+                            <i class="fas fa-chart-pie"></i> Analitik
+                        </a></li>
+                        <li><a href="#" onclick="showProgressTab('performance')" class="menu-item">
+                            <i class="fas fa-chart-bar"></i> Performans
+                        </a></li>
+                        <li><a href="#" onclick="showProgressTab('timeline')" class="menu-item">
+                            <i class="fas fa-clock"></i> Zaman Çizelgesi
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <h4>Hedefler</h4>
+                    <ul class="menu-list">
+                        <li><a href="#" onclick="showProgressTab('goals')" class="menu-item">
+                            <i class="fas fa-bullseye"></i> Hedeflerim
+                        </a></li>
+                        <li><a href="#" onclick="showProgressTab('calendar')" class="menu-item">
+                            <i class="fas fa-calendar"></i> Takvim
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="breadcrumb">
+                    <span>Ana Sayfa</span> <i class="fas fa-chevron-right"></i> 
+                    <span>İlerleme Takibi</span>
+                </div>
+                <div class="content-actions">
+                    <button class="btn-secondary" onclick="exportProgress()">
+                        <i class="fas fa-download"></i> Rapor İndir
+                    </button>
+                    <button class="btn-secondary" onclick="shareProgress()">
+                        <i class="fas fa-share"></i> Paylaş
+                    </button>
+                </div>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="progress-tab active">
+                <div class="overview-header">
+                    <div class="student-summary">
+                        <div class="student-info">
+                            <img src="https://via.placeholder.com/80" alt="Profil" class="student-avatar">
+                            <div class="student-details">
+                                <h2>Ahmet Öğrenci</h2>
+                                <p>9. Sınıf • Genel İlerleme: <span class="progress-percentage">78%</span></p>
+                                <div class="student-level">
+                                    <i class="fas fa-star"></i>
+                                    <span>Seviye 15 - Başarılı Öğrenci</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Tamamlanan Ders</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">89%</div>
+                                <div class="stat-label">Ortalama Başarı</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">Toplam Puan</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Rozet</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-content">
+                    <div class="progress-charts">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-line"></i> Haftalık İlerleme</h3>
+                                <div class="chart-filters">
+                                    <button class="filter-btn active" data-period="week">Hafta</button>
+                                    <button class="filter-btn" data-period="month">Ay</button>
+                                    <button class="filter-btn" data-period="semester">Dönem</button>
+                                </div>
+                            </div>
+                            <canvas id="progressChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-pie"></i> Ders Dağılımı</h3>
+                            </div>
+                            <canvas id="subjectChart" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <div class="activity-header">
+                            <h3><i class="fas fa-history"></i> Son Aktiviteler</h3>
+                            <a href="#" class="view-all">Tümünü Gör</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Matematik - Cebir dersi tamamlandı</div>
+                                    <div class="activity-time">2 saat önce</div>
+                                </div>
+                                <div class="activity-score">+15 puan</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Fizik - Hareket videosu izlendi</div>
+                                    <div class="activity-time">5 saat önce</div>
+                                </div>
+                                <div class="activity-score">+5 puan</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Kimya ödev teslim tarihi yaklaşıyor</div>
+                                    <div class="activity-time">1 gün önce</div>
+                                </div>
+                                <div class="activity-score">2 gün kaldı</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subjects Tab -->
+            <div id="subjects-tab" class="progress-tab">
+                <div class="subjects-header">
+                    <h2>Ders Bazlı İlerleme</h2>
+                    <div class="subjects-filters">
+                        <select class="filter-select" onchange="filterSubjects(this.value)">
+                            <option value="all">Tüm Dersler</option>
+                            <option value="mathematics">Matematik</option>
+                            <option value="science">Fen Bilgisi</option>
+                            <option value="turkish">Türkçe</option>
+                            <option value="english">İngilizce</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="subjects-grid">
+                    <div class="subject-card" data-subject="mathematics">
+                        <div class="subject-header">
+                            <div class="subject-icon math">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="subject-info">
+                                <h3>Matematik</h3>
+                                <p>12 ders • 8 tamamlandı</p>
+                            </div>
+                            <div class="subject-score">92%</div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 67%"></div>
+                            </div>
+                            <span class="progress-text">8/12 ders</span>
+                        </div>
+                        <div class="subject-stats">
+                            <div class="stat">
+                                <i class="fas fa-clock"></i>
+                                <span>24 saat</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-trophy"></i>
+                                <span>5 rozet</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.6/5.0</span>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary" onclick="goToSubject('mathematics')">Devam Et</button>
+                            <button class="btn-secondary" onclick="viewSubjectDetails('mathematics')">Detaylar</button>
+                        </div>
+                    </div>
+
+                    <div class="subject-card" data-subject="science">
+                        <div class="subject-header">
+                            <div class="subject-icon science">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="subject-info">
+                                <h3>Fen Bilgisi</h3>
+                                <p>10 ders • 6 tamamlandı</p>
+                            </div>
+                            <div class="subject-score">85%</div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                            <span class="progress-text">6/10 ders</span>
+                        </div>
+                        <div class="subject-stats">
+                            <div class="stat">
+                                <i class="fas fa-clock"></i>
+                                <span>18 saat</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-trophy"></i>
+                                <span>3 rozet</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.2/5.0</span>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary" onclick="goToSubject('science')">Devam Et</button>
+                            <button class="btn-secondary" onclick="viewSubjectDetails('science')">Detaylar</button>
+                        </div>
+                    </div>
+
+                    <div class="subject-card" data-subject="turkish">
+                        <div class="subject-header">
+                            <div class="subject-icon turkish">
+                                <i class="fas fa-book-reader"></i>
+                            </div>
+                            <div class="subject-info">
+                                <h3>Türkçe</h3>
+                                <p>15 ders • 10 tamamlandı</p>
+                            </div>
+                            <div class="subject-score">78%</div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 67%"></div>
+                            </div>
+                            <span class="progress-text">10/15 ders</span>
+                        </div>
+                        <div class="subject-stats">
+                            <div class="stat">
+                                <i class="fas fa-clock"></i>
+                                <span>32 saat</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-trophy"></i>
+                                <span>4 rozet</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>3.9/5.0</span>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary" onclick="goToSubject('turkish')">Devam Et</button>
+                            <button class="btn-secondary" onclick="viewSubjectDetails('turkish')">Detaylar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Tab -->
+            <div id="achievements-tab" class="progress-tab">
+                <div class="achievements-header">
+                    <h2>Başarılar ve Rozetler</h2>
+                    <div class="achievement-summary">
+                        <div class="summary-item">
+                            <span class="number">12</span>
+                            <span class="label">Toplam Rozet</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="number">156</span>
+                            <span class="label">Toplam Puan</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="number">15</span>
+                            <span class="label">Seviye</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-content">
+                    <div class="achievement-categories">
+                        <button class="category-btn active" data-category="all">Tümü</button>
+                        <button class="category-btn" data-category="learning">Öğrenme</button>
+                        <button class="category-btn" data-category="performance">Performans</button>
+                        <button class="category-btn" data-category="dedication">Özveril</button>
+                        <button class="category-btn" data-category="special">Özel</button>
+                    </div>
+
+                    <div class="achievements-grid">
+                        <div class="achievement-card earned" data-category="learning">
+                            <div class="achievement-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>İlk Adım</h4>
+                                <p>İlk dersinizi tamamladınız</p>
+                                <div class="achievement-date">15 Ekim 2024</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card earned" data-category="performance">
+                            <div class="achievement-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Yıldız Öğrenci</h4>
+                                <p>5 derste %90 üzeri başarı</p>
+                                <div class="achievement-date">22 Ekim 2024</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card earned" data-category="dedication">
+                            <div class="achievement-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Süreklilik</h4>
+                                <p>7 gün üst üste ders çalıştınız</p>
+                                <div class="achievement-date">25 Ekim 2024</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked" data-category="special">
+                            <div class="achievement-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Kraliçe/Kral</h4>
+                                <p>Tüm derslerde %95 üzeri başarı</p>
+                                <div class="achievement-progress">8/12 ders</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked" data-category="performance">
+                            <div class="achievement-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Hız Rekoru</h4>
+                                <p>Bir günde 5 ders tamamlayın</p>
+                                <div class="achievement-progress">3/5 ders</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card earned" data-category="learning">
+                            <div class="achievement-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Zeka Küpü</h4>
+                                <p>10 matematik problemi çözdünüz</p>
+                                <div class="achievement-date">28 Ekim 2024</div>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="progress-tab">
+                <div class="analytics-header">
+                    <h2>Detaylı Analitik</h2>
+                    <div class="analytics-filters">
+                        <select class="filter-select">
+                            <option value="week">Bu Hafta</option>
+                            <option value="month">Bu Ay</option>
+                            <option value="semester">Bu Dönem</option>
+                            <option value="year">Bu Yıl</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-content">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clock"></i> Çalışma Süreleri</h3>
+                            </div>
+                            <canvas id="studyTimeChart" width="400" height="200"></canvas>
+                            <div class="card-summary">
+                                <p>Bu hafta toplam <strong>18 saat 30 dakika</strong> çalıştınız</p>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Başarı Oranları</h3>
+                            </div>
+                            <canvas id="successRateChart" width="400" height="200"></canvas>
+                            <div class="card-summary">
+                                <p>Ortalama başarı oranınız <strong>%87</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calendar-check"></i> Günlük Aktivite</h3>
+                            </div>
+                            <div class="heatmap-container">
+                                <div class="heatmap" id="activityHeatmap"></div>
+                                <div class="heatmap-legend">
+                                    <span>Az</span>
+                                    <div class="legend-scale">
+                                        <div class="scale-item level-0"></div>
+                                        <div class="scale-item level-1"></div>
+                                        <div class="scale-item level-2"></div>
+                                        <div class="scale-item level-3"></div>
+                                        <div class="scale-item level-4"></div>
+                                    </div>
+                                    <span>Çok</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Tab -->
+            <div id="goals-tab" class="progress-tab">
+                <div class="goals-header">
+                    <h2>Hedeflerim</h2>
+                    <button class="btn-primary" onclick="showAddGoalModal()">
+                        <i class="fas fa-plus"></i> Yeni Hedef
+                    </button>
+                </div>
+
+                <div class="goals-content">
+                    <div class="goals-list">
+                        <div class="goal-card">
+                            <div class="goal-header">
+                                <div class="goal-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <div class="goal-info">
+                                    <h3>Matematik Ustası</h3>
+                                    <p>Tüm matematik derslerini tamamla</p>
+                                </div>
+                                <div class="goal-status in-progress">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 67%"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <span>8/12 ders</span>
+                                    <span>Son tarih: 15 Aralık 2024</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="goal-card">
+                            <div class="goal-header">
+                                <div class="goal-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="goal-info">
+                                    <h3>100 Puan Hedefi</h3>
+                                    <p>Bu ay 100 puan topla</p>
+                                </div>
+                                <div class="goal-status completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <span>156/100 puan</span>
+                                    <span>Tamamlandı!</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="goal-card">
+                            <div class="goal-header">
+                                <div class="goal-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="goal-info">
+                                    <h3>30 Günlük Çalışma</h3>
+                                    <p>30 gün boyunca her gün çalış</p>
+                                </div>
+                                <div class="goal-status in-progress">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <span>12/30 gün</span>
+                                    <span>18 gün kaldı</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Goal Modal -->
+    <div id="add-goal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Hedef Ekle</h3>
+                <button class="btn-icon" onclick="closeAddGoalModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-goal-form">
+                    <div class="form-group">
+                        <label>Hedef Adı</label>
+                        <input type="text" placeholder="Hedef adınızı girin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea placeholder="Hedefin detaylarını yazın" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select>
+                            <option value="learning">Öğrenme</option>
+                            <option value="performance">Performans</option>
+                            <option value="time">Zaman</option>
+                            <option value="points">Puan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hedef Değer</label>
+                        <input type="number" placeholder="Örn: 10 ders, 100 puan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Son Tarih</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeAddGoalModal()">İptal</button>
+                        <button type="submit" class="btn-primary">Hedef Ekle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="progress.js"></script>
+</body>
+</html>
